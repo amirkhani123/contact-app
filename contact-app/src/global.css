@@ -2,14 +2,16 @@
  font-family: "vazirMatn";
  src:local("Vazirmatn Regular"),
  url("./assets/fonts/Vazirmatn-Regular.woff2") format("woff2");
- font-weight: 400;
+ font-weight: 300;
 }
 *{
   padding: 0;
   margin: 0;
   font-family: "vazirMatn";
+  box-sizing: border-box;
+  direction: rtl;
 }
 body{
-  width: 1200px;
+  width: 1080px;
   margin: auto;
 }
