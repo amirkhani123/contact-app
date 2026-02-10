@@ -6,13 +6,22 @@ import SaveButton from "./components/modules/SaveButton";
 import FormHeader from "./components/modules/FormHeader";
 import DeleteAllSelects from "./components/modules/DeleteAllSelects";
 import Search from "./components/Search";
+import Card from "./components/Card";
+
 function App() {
-  const [showData, setShowData] = useState([]);
   const [contactsDb, setContactsDb] = useState(() => {
     return JSON.parse(localStorage.getItem("contactsDB")) || [];
   });
-  // console.log(contactsDb)
+  const [showData, setShowData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  const [selectedContact, setSelectedContacts] = useState(null);
+  const [allItemSelected, setAllItemSelected] = useState([]);
+  const [toastState, setToastState] = useState({
+    text: "",
+    isShow: false,
+  });
+
   useEffect(() => {
     if (!searchInput.trim()) {
       return setShowData(contactsDb);
@@ -26,15 +35,6 @@ function App() {
 
     setShowData(filtered);
   }, [searchInput, contactsDb]);
-
-  const [toastState, setToastState] = useState({
-    text: "",
-    isShow: false,
-  });
-
-  const [selectedContact, setSelectedContacts] = useState(null);
-  const [allItemSelected, setAllItemSelected] = useState([]);
-  console.log(allItemSelected.length, contactsDb);
 
   return (
     <>
@@ -53,6 +53,8 @@ function App() {
           setAllItemSelected={setAllItemSelected}
           setToastState={setToastState}
           allItemSelected={allItemSelected}
+          showModal={showModal}
+          setShowModal={setShowModal}
         />
       ) : (
         <SaveButton setToastState={setToastState} contactsDb={contactsDb} />
@@ -62,13 +64,18 @@ function App() {
         {contactsDb.length ? (
           <>
             <Search setSearchInput={setSearchInput} searchInput={searchInput} />
-            <ShowContacts
-              showData={showData}
-              setContatcsDb={setContactsDb}
-              setToastState={setToastState}
-              setSelectedContacts={setSelectedContacts}
-              setAllItemSelected={setAllItemSelected}
-            />
+            <ShowContacts>
+              {showData.map((item) => (
+                <Card
+                  key={item.id}
+                  item={item}
+                  setContatcsDb={setContactsDb}
+                  setToastState={setToastState}
+                  setSelectedContacts={setSelectedContacts}
+                  setAllItemSelected={setAllItemSelected}
+                />
+              ))}
+            </ShowContacts>
           </>
         ) : (
           <p>مخاطبی وجود ندارد !</p>

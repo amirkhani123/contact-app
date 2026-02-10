@@ -1,5 +1,5 @@
 import { FaSearch } from "react-icons/fa";
-import styles from "./search.module.css";
+import styles from "./styles/search.module.css";
 function Search({ searchInput, setSearchInput }) {
   return (
     <div className={styles.searchContainer}>

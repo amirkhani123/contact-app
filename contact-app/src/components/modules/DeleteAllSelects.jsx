@@ -1,17 +1,17 @@
-import { useState } from "react";
-import styles from "./deleteAllselected.module.css";
+import styles from "./styles/deleteAllselected.module.css";
+import Modal from "./Modal";
 
 function DeleteAllSelects({
   setContactsDb,
   setAllItemSelected,
   allItemSelected,
   setToastState,
+  setShowModal,
+  showModal,
 }) {
-  const [showModal, setShowModal] = useState(false);
-
   const deleteAllSelectedHandler = () => {
     setContactsDb((items) =>
-      items.filter((i) => !allItemSelected.some((t) => t.id === i.id))
+      items.filter((i) => !allItemSelected.some((t) => t.id === i.id)),
     );
 
     setToastState({
@@ -39,29 +39,8 @@ function DeleteAllSelects({
         <p>پاک کردن انتخابی‌ها</p>
       </div>
 
-      {/* مودال */}
       {showModal && (
-        <div className={styles.modalBackdrop}>
-          <div className={styles.modal}>
-            <p>آیا مطمئن هستید که می‌خواهید حذف کنید؟</p>
-
-            <div className={styles.modalActions}>
-              <button
-                className={styles.cancelBtn}
-                onClick={() => setShowModal(false)}
-              >
-                نه
-              </button>
-
-              <button
-                className={styles.confirmBtn}
-                onClick={deleteAllSelectedHandler}
-              >
-                بله، حذف کن
-              </button>
-            </div>
-          </div>
-        </div>
+        <Modal setShowModal={setShowModal} fn={deleteAllSelectedHandler} />
       )}
     </>
   );

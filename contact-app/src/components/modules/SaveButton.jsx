@@ -1,5 +1,5 @@
 import { toastShow } from "../../helpers/helpers";
-import styles from "./saveButton.module.css";
+import styles from "./styles/saveButton.module.css";
 
 function SaveButton({ contactsDb, setToastState }) {
   const saveHandler = () => {

@@ -1,4 +1,4 @@
-import styles from "./toast.module.css";
+import styles from "./styles/toast.module.css";
 
 function Toast({ text, isShow }) {
   return (

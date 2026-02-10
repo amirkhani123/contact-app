@@ -1,26 +1,6 @@
-import styles from "./showContacts.module.css";
+import styles from "./styles/showContacts.module.css";
 
-import Card from "./Card";
-function ShowContacts({
-  showData,
-  setContatcsDb,
-  setToastState,
-  setSelectedContacts,
-  setAllItemSelected,
-}) {
-  return (
-    <div className={styles.showContacts}>
-      {showData.map((item) => (
-        <Card
-          key={item.id}
-          item={item}
-          setContatcsDb={setContatcsDb}
-          setToastState={setToastState}
-          setSelectedContacts={setSelectedContacts}
-          setAllItemSelected={setAllItemSelected}
-        />
-      ))}
-    </div>
-  );
+function ShowContacts({ children }) {
+  return <div className={styles.showContacts}>{children}</div>;
 }
 export default ShowContacts;
