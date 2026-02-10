@@ -1,0 +1,29 @@
+.saveButton {
+  position: fixed;
+  left: 20px;
+  bottom: 30px;
+
+  background: linear-gradient(135deg, #2ecc71, #0091ff);
+  color: #fff;
+
+  padding: 5px;
+  border-radius: 13px;
+
+  font-size: 0.9rem;
+  font-weight: 700;
+
+  cursor: pointer;
+  user-select: none;
+
+  box-shadow: 0 10px 25px #2ecc7057;
+  transition: all 0.5s ease-in;
+}
+
+.saveButton:hover {
+  transform: translateY(-4px);
+  background: linear-gradient(135deg, #0091ff, #2ecc71);
+}
+
+.saveButton:active {
+  transform: scale(0.97);
+}

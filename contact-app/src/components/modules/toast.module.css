@@ -1,0 +1,56 @@
+.toast {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-30px);
+
+  min-width: 220px;
+  padding: 10px;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1f2937;
+
+  z-index: 9999;
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.08),
+    0 4px 10px rgba(0, 0, 0, 0.04);
+
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* وقتی toast نشون داده میشه */
+.toast.show {
+  animation: toast-in 0.4s ease-out forwards;
+  pointer-events: auto;
+}
+
+/* وقتی toast مخفی میشه */
+.toast.hide {
+  animation: toast-out 0.4s  forwards;
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

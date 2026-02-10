@@ -15,3 +15,18 @@ body{
   width: 1080px;
   margin: auto;
 }
+main{
+   width: 100%;
+   min-height: 350px;
+   border-radius: 10px;
+   padding: 10px;
+   box-shadow: 0px 0px 10px -2px hsla(221, 15%, 25%, 0.157);
+   margin: 25px auto 0;
+   text-align: center;
+}
+main p{
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2f3640;
+  margin-top: 100px;
+}

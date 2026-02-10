@@ -1,0 +1,61 @@
+.deleteButton{
+  position: fixed;
+  left: 20px;
+  bottom: 30px;
+
+  background: #e84118;
+  color: #fff;
+
+  padding: 5px;
+  border-radius: 13px;
+
+  font-size: 0.9rem;
+  font-weight: 700;
+
+  cursor: pointer;
+  user-select: none;
+
+  box-shadow: 0 10px 25px #cc2e2e2f;
+  transition: all 0.5s ease-in;
+}
+.modalBackdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 300px;
+    text-align: center;
+  }
+  
+  .modalActions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .cancelBtn {
+    background: #ccc;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .confirmBtn {
+    background: #e53935;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
