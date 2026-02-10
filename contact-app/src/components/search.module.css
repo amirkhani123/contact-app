@@ -1,0 +1,19 @@
+.searchContainer{
+    width: 100%;
+    display: flex;
+    align-items:center;
+    justify-content: flex-start;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+.icon{
+    background: #00a8ff;
+    padding:5px 8px;
+    border-radius: 50%;
+}
+.searchContainer input{
+    border: none;
+    outline: none;
+    border-bottom:  solid 3px #00a8ff;
+    width: 25%;
+}

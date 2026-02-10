@@ -1,14 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import ShowContacts from "./components/ShowContacts";
 import Toast from "./components/modules/Toast";
 import SaveButton from "./components/modules/SaveButton";
 import FormHeader from "./components/modules/FormHeader";
 import DeleteAllSelects from "./components/modules/DeleteAllSelects";
+import Search from "./components/Search";
 function App() {
+  const [showData, setShowData] = useState([]);
   const [contactsDb, setContactsDb] = useState(() => {
     return JSON.parse(localStorage.getItem("contactsDB")) || [];
   });
+  // console.log(contactsDb)
+  const [searchInput, setSearchInput] = useState("");
+  useEffect(() => {
+    if (!searchInput.trim()) {
+      return setShowData(contactsDb);
+    }
+
+    const filtered = contactsDb.filter(
+      (contact) =>
+        contact.contactName.includes(searchInput.trim()) ||
+        contact.email.toLowerCase().includes(searchInput.trim()),
+    );
+
+    setShowData(filtered);
+  }, [searchInput, contactsDb]);
 
   const [toastState, setToastState] = useState({
     text: "",
@@ -43,13 +60,16 @@ function App() {
 
       <main>
         {contactsDb.length ? (
-          <ShowContacts
-            contactsDb={contactsDb}
-            setContatcsDb={setContactsDb}
-            setToastState={setToastState}
-            setSelectedContacts={setSelectedContacts}
-            setAllItemSelected={setAllItemSelected}
-          />
+          <>
+            <Search setSearchInput={setSearchInput} searchInput={searchInput} />
+            <ShowContacts
+              showData={showData}
+              setContatcsDb={setContactsDb}
+              setToastState={setToastState}
+              setSelectedContacts={setSelectedContacts}
+              setAllItemSelected={setAllItemSelected}
+            />
+          </>
         ) : (
           <p>مخاطبی وجود ندارد !</p>
         )}

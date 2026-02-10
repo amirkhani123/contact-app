@@ -25,7 +25,7 @@ function FormHeader({ setContactsDb, setToastState, selectedContact }) {
     e.preventDefault();
 
     if (
-      formData.contactName.length <= 7 ||
+      formData.contactName.length <= 6 ||
       formData.email.length <= 7 ||
       formData.phone.length < 11
     ) {
@@ -33,7 +33,7 @@ function FormHeader({ setContactsDb, setToastState, selectedContact }) {
         text: "😡 مقادیر معتبر وارد کنید !",
         isShow: true,
       });
-     return setTimeout(() => {
+      return setTimeout(() => {
         setToastState({ text: "", isShow: false });
       }, 3500);
     }

@@ -2,16 +2,15 @@ import styles from "./showContacts.module.css";
 
 import Card from "./Card";
 function ShowContacts({
-  contactsDb,
+  showData,
   setContatcsDb,
   setToastState,
   setSelectedContacts,
   setAllItemSelected,
 }) {
-
   return (
     <div className={styles.showContacts}>
-      {contactsDb.map((item) => (
+      {showData.map((item) => (
         <Card
           key={item.id}
           item={item}

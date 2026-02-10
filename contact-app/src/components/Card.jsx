@@ -18,6 +18,12 @@ function Card({
       text: "✅ مخاطب با موفقیت حذف شد",
       isShow: true,
     });
+    setTimeout(() => {
+      setToastState({
+        text: "",
+        isShow: false,
+      });
+    }, 3000);
   };
 
   const selectHandler = () => {
