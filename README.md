@@ -3,7 +3,7 @@
 یک **مینی اپلیکیشن مدیریت مخاطبین** ساخته شده با **React** و **Vite** برای مدیریت سریع و ساده‌ی مخاطبین.
 
 --- 
-مشاهده دمو [اینجا کلیک کنید ](https://resume-nine-liard-62.vercel.app/) 
+مشاهده دمو [اینجا کلیک کنید ]( https://contact-k9fbb8dqi-amirkhani123s-projects.vercel.app/  ) 
 
 --- 
 
