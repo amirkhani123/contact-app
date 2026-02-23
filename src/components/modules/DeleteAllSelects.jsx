@@ -1,19 +1,18 @@
 import styles from "./styles/deleteAllselected.module.css";
 import Modal from "./Modal";
+import { useContext } from "react";
+import { ContactsContext } from "../../context/contexts";
 
 function DeleteAllSelects({
-  setContactsDb,
   setAllItemSelected,
   allItemSelected,
   setToastState,
   setShowModal,
   showModal,
 }) {
+  const { dispatch } = useContext(ContactsContext);
   const deleteAllSelectedHandler = () => {
-    setContactsDb((items) =>
-      items.filter((i) => !allItemSelected.some((t) => t.id === i.id)),
-    );
-
+    dispatch({ type: "DELETE_ALL_CONTACT", payload: allItemSelected });
     setToastState({
       text: "✅ مخاطبین با موفقیت حذف شدند",
       isShow: true,

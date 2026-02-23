@@ -1,21 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./styles/showContacts.module.css";
 import { ImCheckboxChecked, ImCheckboxUnchecked } from "react-icons/im";
 import Modal from "./modules/Modal";
+import { ContactsContext } from "../context/contexts";
+
+
 
 function Card({
   item,
   setSelectedContacts,
   setToastState,
-  setContatcsDb,
   setAllItemSelected,
 }) {
+  const { dispatch } = useContext(ContactsContext);
+  console.log(dispatch);
   const [isSelect, setIsSelect] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const confirmDeleteHandler = () => {
-    setContatcsDb((contacts) => contacts.filter((i) => i.id !== item.id));
-
+    dispatch({ type: "DELETE_CONTACT", payload: item });
     setToastState({
       text: "✅ مخاطب با موفقیت حذف شد",
       isShow: true,

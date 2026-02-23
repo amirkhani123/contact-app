@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Header from "./components/Header";
 import ShowContacts from "./components/ShowContacts";
 import Toast from "./components/modules/Toast";
@@ -7,11 +7,10 @@ import FormHeader from "./components/modules/FormHeader";
 import DeleteAllSelects from "./components/modules/DeleteAllSelects";
 import Search from "./components/Search";
 import Card from "./components/Card";
+import { ContactsContext } from "./context/contexts";
 
 function App() {
-  const [contactsDb, setContactsDb] = useState(() => {
-    return JSON.parse(localStorage.getItem("contactsDB")) || [];
-  });
+  const { contacts } = useContext(ContactsContext);
   const [showData, setShowData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -24,24 +23,25 @@ function App() {
 
   useEffect(() => {
     if (!searchInput.trim()) {
-      return setShowData(contactsDb);
+      return setShowData(contacts);
     }
 
-    const filtered = contactsDb.filter(
+    const filtered = contacts.filter(
       (contact) =>
         contact.contactName.includes(searchInput.trim()) ||
         contact.email.toLowerCase().includes(searchInput.trim()),
     );
 
     setShowData(filtered);
-  }, [searchInput, contactsDb]);
+  }, [searchInput, contacts]);
 
   return (
     <>
       <Header>
         <h1>برنامه مدیریت مخاطبین </h1>
+
         <FormHeader
-          setContactsDb={setContactsDb}
+          key={selectedContact ? selectedContact.id : "new"}
           setToastState={setToastState}
           selectedContact={selectedContact}
         />
@@ -49,7 +49,6 @@ function App() {
       <Toast text={toastState.text} isShow={toastState.isShow} />
       {allItemSelected.length ? (
         <DeleteAllSelects
-          setContactsDb={setContactsDb}
           setAllItemSelected={setAllItemSelected}
           setToastState={setToastState}
           allItemSelected={allItemSelected}
@@ -57,11 +56,11 @@ function App() {
           setShowModal={setShowModal}
         />
       ) : (
-        <SaveButton setToastState={setToastState} contactsDb={contactsDb} />
+        <SaveButton setToastState={setToastState} contactsDb={contacts} />
       )}
 
       <main>
-        {contactsDb.length ? (
+        {contacts.length ? (
           <>
             <Search setSearchInput={setSearchInput} searchInput={searchInput} />
             <ShowContacts>
@@ -69,7 +68,6 @@ function App() {
                 <Card
                   key={item.id}
                   item={item}
-                  setContatcsDb={setContactsDb}
                   setToastState={setToastState}
                   setSelectedContacts={setSelectedContacts}
                   setAllItemSelected={setAllItemSelected}

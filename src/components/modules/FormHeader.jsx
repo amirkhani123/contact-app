@@ -1,24 +1,20 @@
-import React, { useEffect } from "react";
+import { useState, useContext } from "react";
 import styles from "./styles/formHeader.module.css";
-import { useState } from "react";
-import { inputChange } from "../../helpers/helpers";
+import { ContactsContext } from "../../context/contexts";
 
-function FormHeader({ setContactsDb, setToastState, selectedContact }) {
+function FormHeader({ setToastState, selectedContact }) {
+  const { dispatch } = useContext(ContactsContext);
+
   const [formData, setFormData] = useState({
-    contactName: "",
-    phone: "",
-    email: "",
+    contactName: selectedContact?.contactName || "",
+    phone: selectedContact?.phone || "",
+    email: selectedContact?.email || "",
   });
 
-  useEffect(() => {
-    if (selectedContact) {
-      setFormData({
-        contactName: selectedContact.contactName || "",
-        phone: selectedContact.phone || "",
-        email: selectedContact.email || "",
-      });
-    }
-  }, [selectedContact]);
+  const showToast = (text) => {
+    setToastState({ text, isShow: true });
+    setTimeout(() => setToastState({ text: "", isShow: false }), 3500);
+  };
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -28,92 +24,58 @@ function FormHeader({ setContactsDb, setToastState, selectedContact }) {
       formData.email.length <= 7 ||
       formData.phone.length < 11
     ) {
-      setToastState({
-        text: "😡 مقادیر معتبر وارد کنید !",
-        isShow: true,
-      });
-      return setTimeout(() => {
-        setToastState({ text: "", isShow: false });
-      }, 3500);
+      return showToast("😡 مقادیر معتبر وارد کنید !");
     }
 
     if (selectedContact) {
-      setContactsDb((contacts) => {
-        const updatedContacts = contacts.map((contact) =>
-          contact.id === selectedContact.id
-            ? { ...formData, id: selectedContact.id } // حفظ ID اصلی
-            : contact,
-        );
-        return updatedContacts;
+      dispatch({
+        type: "EDIT_CONTACT",
+        payload: { ...formData, id: selectedContact.id },
       });
-
-      setToastState({
-        text: "✅ مخاطب با موفقیت ویرایش شد",
-        isShow: true,
-      });
-      setTimeout(() => {
-        setToastState({ text: "", isShow: false });
-      }, 3500);
+      showToast("✅ مخاطب با موفقیت ویرایش شد");
     } else {
-      setContactsDb((contacts) => [
-        ...contacts,
-        { ...formData, id: Math.floor(Math.random() * 1000) + 1 },
-      ]);
-
-      setToastState({
-        text: "✅ مخاطب با موفقیت اضافه شد",
-        isShow: true,
-      });
-      setTimeout(() => {
-        setToastState({ text: "", isShow: false });
-      }, 3500);
+      dispatch({ type: "ADD_CONTACT", payload: formData });
+      showToast("✅ مخاطب با موفقیت اضافه شد");
     }
 
-    setFormData({
-      contactName: "",
-      phone: "",
-      email: "",
-    });
+    setFormData({ contactName: "", phone: "", email: "" });
   };
 
   return (
     <form className={styles.container} onSubmit={submitForm}>
-      <div className={styles.inputsContainer}>
-        <div className={styles.input}>
+      {["contactName", "phone", "email"].map((field) => (
+        <div className={styles.input} key={field}>
           <input
-            type="text"
-            name="contactName"
-            onChange={(e) => inputChange(e, setFormData)}
-            placeholder="نام و نام خانوادگی ..."
-            minLength={7}
-            value={formData.contactName || ""}
+            type={field === "email" ? "email" : "text"}
+            name={field}
+            value={formData[field]}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                [e.target.name]: e.target.value,
+              }))
+            }
+            placeholder={
+              field === "contactName"
+                ? "نام و نام خانوادگی ..."
+                : field === "phone"
+                  ? "شماره تماس ..."
+                  : "ایمیل ..."
+            }
+            minLength={field === "phone" ? 11 : 7}
+            maxLength={field === "phone" ? 11 : undefined}
           />
-          <span>لطفا مقادیر معتبر وارد کنید !</span>
+          <span>
+            لطفا
+            {field === "contactName"
+              ? "مقادیر معتبر"
+              : field === "phone"
+                ? "شماره معتبر"
+                : "ایمیل معتبر"}
+            وارد کنید !
+          </span>
         </div>
-        <div className={styles.input}>
-          <input
-            type="text"
-            name="phone"
-            onChange={(e) => inputChange(e, setFormData)}
-            placeholder="شماره تماس ..."
-            minLength={11}
-            maxLength={11}
-            value={formData.phone || ""}
-          />
-          <span>لطفا شماره معتبر وارد کنید !</span>
-        </div>
-        <div className={styles.input}>
-          <input
-            type="email"
-            name="email"
-            onChange={(e) => inputChange(e, setFormData)}
-            placeholder="ایمیل ..."
-            minLength={7}
-            value={formData.email || ""}
-          />
-          <span>لطفا ایمیل معتبر وارد کنید !</span>
-        </div>
-      </div>
+      ))}
       <button type="submit">
         {selectedContact ? "ویرایش مخاطب" : "افزودن مخاطب"}
       </button>
