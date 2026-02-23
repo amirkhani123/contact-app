@@ -1,20 +1,16 @@
 import { useState, useContext } from "react";
 import styles from "./styles/formHeader.module.css";
-import { ContactsContext } from "../../context/contexts";
+import { Context } from "../../context/contexts";
+import { toastHideFa } from "../../helpers/helpers";
 
-function FormHeader({ setToastState, selectedContact }) {
-  const { dispatch } = useContext(ContactsContext);
+function FormHeader({ selectedContact }) {
+  const { contactsDispatch, toastDispatch } = useContext(Context);
 
   const [formData, setFormData] = useState({
     contactName: selectedContact?.contactName || "",
     phone: selectedContact?.phone || "",
     email: selectedContact?.email || "",
   });
-
-  const showToast = (text) => {
-    setToastState({ text, isShow: true });
-    setTimeout(() => setToastState({ text: "", isShow: false }), 3500);
-  };
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -24,18 +20,21 @@ function FormHeader({ setToastState, selectedContact }) {
       formData.email.length <= 7 ||
       formData.phone.length < 11
     ) {
-      return showToast("😡 مقادیر معتبر وارد کنید !");
+      toastDispatch({ type: "SHOW", payload: "😡 مقادیر معتبر وارد کنید " });
+      toastHideFa(toastDispatch);
     }
 
     if (selectedContact) {
-      dispatch({
+      contactsDispatch({
         type: "EDIT_CONTACT",
         payload: { ...formData, id: selectedContact.id },
       });
-      showToast("✅ مخاطب با موفقیت ویرایش شد");
+      toastDispatch({ type: "SHOW", payload: "✅ مخاطب با موفقیت ویرایش شد" });
+      toastHideFa(toastDispatch);
     } else {
-      dispatch({ type: "ADD_CONTACT", payload: formData });
-      showToast("✅ مخاطب با موفقیت اضافه شد");
+      contactsDispatch({ type: "ADD_CONTACT", payload: formData });
+      toastDispatch({ type: "SHOW", payload: "✅ مخاطب با موفقیت اضافه شد" });
+      toastHideFa(toastDispatch);
     }
 
     setFormData({ contactName: "", phone: "", email: "" });

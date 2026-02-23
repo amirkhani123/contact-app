@@ -1,15 +1,31 @@
 import { useReducer } from "react";
-import { reducer } from "./contexts";
-import { ContactsContext } from "./contexts";
+import { Context, reducerContacts } from "./contexts";
+import reducerToast from "./toastContext";
 
 function Provider({ children }) {
-  const initalState = JSON.parse(localStorage.getItem("contactsDB")) || [];
-  const [state, dispatch] = useReducer(reducer, initalState);
+  const initialState = JSON.parse(localStorage.getItem("contactsDB")) || [];
+
+  const [contactsState, contactsDispatch] = useReducer(
+    reducerContacts,
+    initialState,
+  );
+
+  const [toastState, toastDispatch] = useReducer(reducerToast, {
+    text: "",
+    isShow: false,
+  });
 
   return (
-    <ContactsContext.Provider value={{ contacts: state, dispatch }}>
+    <Context.Provider
+      value={{
+        contacts: contactsState,
+        contactsDispatch,
+        toast: toastState,
+        toastDispatch,
+      }}
+    >
       {children}
-    </ContactsContext.Provider>
+    </Context.Provider>
   );
 }
 

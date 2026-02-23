@@ -1,34 +1,26 @@
 import styles from "./styles/deleteAllselected.module.css";
 import Modal from "./Modal";
 import { useContext } from "react";
-import { ContactsContext } from "../../context/contexts";
+import { Context } from "../../context/contexts";
+import { toastHideFa } from "../../helpers/helpers";
 
 function DeleteAllSelects({
   setAllItemSelected,
   allItemSelected,
-  setToastState,
   setShowModal,
   showModal,
 }) {
-  const { dispatch } = useContext(ContactsContext);
+  const { contactsDispatch, toastDispatch } = useContext(Context);
   const deleteAllSelectedHandler = () => {
-    dispatch({ type: "DELETE_ALL_CONTACT", payload: allItemSelected });
-    setToastState({
-      text: "✅ مخاطبین با موفقیت حذف شدند",
-      isShow: true,
-    });
-
-    setTimeout(() => {
-      setToastState({ text: "", isShow: false });
-    }, 3500);
-
+    contactsDispatch({ type: "DELETE_ALL_CONTACT", payload: allItemSelected });
+    toastDispatch({ type: "SHOW", payload: "✅ مخاطبین با موفقیت حذف شدند" });
+    toastHideFa(toastDispatch);
     setAllItemSelected([]);
     setShowModal(false);
   };
 
   return (
     <>
-      {/* دکمه اصلی */}
       <div
         className={styles.deleteButton}
         onClick={() => {

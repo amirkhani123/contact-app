@@ -7,19 +7,15 @@ import FormHeader from "./components/modules/FormHeader";
 import DeleteAllSelects from "./components/modules/DeleteAllSelects";
 import Search from "./components/Search";
 import Card from "./components/Card";
-import { ContactsContext } from "./context/contexts";
+import { Context } from "./context/contexts";
 
 function App() {
-  const { contacts } = useContext(ContactsContext);
+  const { contacts } = useContext(Context);
   const [showData, setShowData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [selectedContact, setSelectedContacts] = useState(null);
   const [allItemSelected, setAllItemSelected] = useState([]);
-  const [toastState, setToastState] = useState({
-    text: "",
-    isShow: false,
-  });
 
   useEffect(() => {
     if (!searchInput.trim()) {
@@ -42,21 +38,19 @@ function App() {
 
         <FormHeader
           key={selectedContact ? selectedContact.id : "new"}
-          setToastState={setToastState}
           selectedContact={selectedContact}
         />
       </Header>
-      <Toast text={toastState.text} isShow={toastState.isShow} />
+      <Toast />
       {allItemSelected.length ? (
         <DeleteAllSelects
           setAllItemSelected={setAllItemSelected}
-          setToastState={setToastState}
           allItemSelected={allItemSelected}
           showModal={showModal}
           setShowModal={setShowModal}
         />
       ) : (
-        <SaveButton setToastState={setToastState} contactsDb={contacts} />
+        <SaveButton contactsDb={contacts} />
       )}
 
       <main>
@@ -68,7 +62,6 @@ function App() {
                 <Card
                   key={item.id}
                   item={item}
-                  setToastState={setToastState}
                   setSelectedContacts={setSelectedContacts}
                   setAllItemSelected={setAllItemSelected}
                 />

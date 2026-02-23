@@ -1,8 +1,12 @@
-
-const toastShow = (setToastState, text) => {
-  setToastState({ text: text, isShow: true });
+// const toastShow = (setToastState, text) => {
+//   setToastState({ text: text, isShow: true });
+//   setTimeout(() => {
+//     setToastState({ text: "", isShow: false });
+//   }, 3500);
+// };
+const toastHideFa = (toastDispatch) => {
   setTimeout(() => {
-    setToastState({ text: "", isShow: false });
-  }, 3500);
+    toastDispatch({ type: "HIDE" });
+  }, 3000);
 };
-export {  toastShow };
+export { toastHideFa };

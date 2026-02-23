@@ -1,8 +1,8 @@
 import { createContext } from "react";
 
-const ContactsContext = createContext();
+const Context = createContext();
 
-const reducer = (state, action) => {
+const reducerContacts = (state, action) => {
   switch (action.type) {
     case "ADD_CONTACT":
       return [...state, { id: Date.now(), ...action.payload }];
@@ -17,8 +17,9 @@ const reducer = (state, action) => {
         return i.id === action.payload.id ? { ...action.payload } : i;
       });
     }
+
     default:
       throw new Error("ACTION NOT VALID!");
   }
 };
-export { reducer, ContactsContext };
+export { reducerContacts, Context };
