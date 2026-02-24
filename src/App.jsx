@@ -39,6 +39,7 @@ function App() {
         <FormHeader
           key={selectedContact ? selectedContact.id : "new"}
           selectedContact={selectedContact}
+          setSelectedContacts={setSelectedContacts}
         />
       </Header>
       <Toast />

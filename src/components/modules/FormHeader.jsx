@@ -3,7 +3,7 @@ import styles from "./styles/formHeader.module.css";
 import { Context } from "../../context/contexts";
 import { toastHideFa } from "../../helpers/helpers";
 
-function FormHeader({ selectedContact }) {
+function FormHeader({ selectedContact, setSelectedContacts }) {
   const { contactsDispatch, toastDispatch } = useContext(Context);
 
   const [formData, setFormData] = useState({
@@ -21,7 +21,7 @@ function FormHeader({ selectedContact }) {
       formData.phone.length < 11
     ) {
       toastDispatch({ type: "SHOW", payload: "😡 مقادیر معتبر وارد کنید " });
-      toastHideFa(toastDispatch);
+      return toastHideFa(toastDispatch);
     }
 
     if (selectedContact) {
@@ -31,6 +31,7 @@ function FormHeader({ selectedContact }) {
       });
       toastDispatch({ type: "SHOW", payload: "✅ مخاطب با موفقیت ویرایش شد" });
       toastHideFa(toastDispatch);
+      setSelectedContacts(null);
     } else {
       contactsDispatch({ type: "ADD_CONTACT", payload: formData });
       toastDispatch({ type: "SHOW", payload: "✅ مخاطب با موفقیت اضافه شد" });
